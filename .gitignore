@@ -1,2 +1,5 @@
 /target
 *.pdf
+CLAUDE.md
+__pycache__/
+.venv/
