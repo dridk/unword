@@ -1,0 +1,12 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "doc2text"
+requires-python = ">=3.8"
+description = "Extract text from .doc files"
+dynamic = ["version"]
+
+[tool.maturin]
+features = ["python"]
