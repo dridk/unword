@@ -1,10 +1,10 @@
 [package]
-name = "doc2text"
+name = "unword"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "doc2text"
+name = "unword"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]

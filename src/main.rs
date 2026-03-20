@@ -3,7 +3,7 @@ use clap::Parser;
 use std::fs;
 
 #[derive(Parser)]
-#[command(name = "doc2text", about = "Convert MS-DOC (.doc) files to Markdown")]
+#[command(name = "unword", about = "Convert MS-DOC (.doc) files to Markdown")]
 struct Args {
     #[arg(short, long)]
     input: String,
@@ -16,7 +16,7 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     let data = fs::read(&args.input).with_context(|| format!("Failed to read {}", args.input))?;
-    let doc = doc2text::parse_doc(&data)?;
+    let doc = unword::parse_doc(&data)?;
 
     let mut md = doc.body_text;
 

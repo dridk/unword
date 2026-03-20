@@ -75,7 +75,7 @@ mod python {
     }
 
     #[pymodule]
-    fn doc2text(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    fn unword(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m.add_class::<PyDocument>()?;
         m.add_function(wrap_pyfunction!(parse_doc, m)?)?;
         Ok(())

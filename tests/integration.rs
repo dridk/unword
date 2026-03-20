@@ -2,15 +2,15 @@ use std::fs;
 
 const DOC_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/fixtures/1000.doc");
 
-fn load_doc() -> doc2text::markdown::Document {
+fn load_doc() -> unword::markdown::Document {
     let data = fs::read(DOC_PATH).expect("failed to read 1000.doc");
-    doc2text::parse_doc(&data).expect("failed to parse doc")
+    unword::parse_doc(&data).expect("failed to parse doc")
 }
 
 #[test]
 fn test_ole_streams() {
     let data = fs::read(DOC_PATH).expect("failed to read 1000.doc");
-    let streams = doc2text::ole::read_ole_streams(&data).expect("failed to read OLE streams");
+    let streams = unword::ole::read_ole_streams(&data).expect("failed to read OLE streams");
     assert_eq!(streams.word_document.len(), 5181);
     assert_eq!(streams.table.len(), 3788);
 }
@@ -18,8 +18,8 @@ fn test_ole_streams() {
 #[test]
 fn test_fib_magic() {
     let data = fs::read(DOC_PATH).expect("failed to read 1000.doc");
-    let streams = doc2text::ole::read_ole_streams(&data).unwrap();
-    let fib = doc2text::fib::parse_fib(&streams.word_document).unwrap();
+    let streams = unword::ole::read_ole_streams(&data).unwrap();
+    let fib = unword::fib::parse_fib(&streams.word_document).unwrap();
     assert_eq!(fib.ccp_text, 607);
     assert_eq!(fib.ccp_txbx, 51);
     assert_eq!(fib.ccp_ftn, 0);
@@ -28,12 +28,12 @@ fn test_fib_magic() {
 #[test]
 fn test_piece_table() {
     let data = fs::read(DOC_PATH).unwrap();
-    let streams = doc2text::ole::read_ole_streams(&data).unwrap();
-    let fib = doc2text::fib::parse_fib(&streams.word_document).unwrap();
-    let pieces = doc2text::clx::parse_clx(&streams.table, fib.fc_clx, fib.lcb_clx).unwrap();
+    let streams = unword::ole::read_ole_streams(&data).unwrap();
+    let fib = unword::fib::parse_fib(&streams.word_document).unwrap();
+    let pieces = unword::clx::parse_clx(&streams.table, fib.fc_clx, fib.lcb_clx).unwrap();
     assert!(!pieces.is_empty());
 
-    let chars = doc2text::text::extract_text(&streams.word_document, &pieces).unwrap();
+    let chars = unword::text::extract_text(&streams.word_document, &pieces).unwrap();
     let text: String = chars.iter().collect();
     assert!(text.contains("Concert du soir"));
     assert!(text.contains("chocolat"));
@@ -82,6 +82,6 @@ fn test_no_control_chars_in_output() {
 
 #[test]
 fn test_invalid_file() {
-    let result = doc2text::parse_doc(b"not a doc file");
+    let result = unword::parse_doc(b"not a doc file");
     assert!(result.is_err());
 }
