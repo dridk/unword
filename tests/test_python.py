@@ -28,3 +28,15 @@ def test_repr():
     doc = unword.parse_doc(data)
     r = repr(doc)
     assert r.startswith("Document(")
+
+
+def test_fields_attribute():
+    data = FIXTURE.read_bytes()
+    doc = unword.parse_doc(data)
+    assert isinstance(doc.fields, list)
+
+
+def test_strip_fields_false():
+    data = FIXTURE.read_bytes()
+    doc = unword.parse_doc(data, strip_fields=False)
+    assert len(doc.body_text) > 0

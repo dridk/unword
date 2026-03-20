@@ -81,6 +81,21 @@ fn test_no_control_chars_in_output() {
 }
 
 #[test]
+fn test_fields_extraction() {
+    let doc = load_doc();
+    // fields is populated (may be empty if fixture has no fields)
+    assert!(doc.fields.is_empty() || !doc.fields[0].field_type.is_empty());
+}
+
+#[test]
+fn test_strip_fields_false() {
+    let data = fs::read(DOC_PATH).expect("failed to read 1000.doc");
+    let doc = unword::parse_doc_with_options(&data, false).expect("failed to parse doc");
+    // Should still parse successfully
+    assert!(!doc.body_text.is_empty());
+}
+
+#[test]
 fn test_invalid_file() {
     let result = unword::parse_doc(b"not a doc file");
     assert!(result.is_err());
