@@ -5,8 +5,19 @@ build-backend = "maturin"
 [project]
 name = "unword"
 requires-python = ">=3.8"
-description = "Extract text from .doc files"
+description = "Convert legacy MS Word .doc files to Markdown — inspired by antiword"
 dynamic = ["version"]
+license = "MIT"
+readme = "README.md"
+keywords = ["word", "doc", "parser", "antiword", "markdown"]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Text Processing :: Markup",
+]
+
+[project.urls]
+Repository = "https://github.com/dridk/unword"
 
 [tool.maturin]
 features = ["python"]

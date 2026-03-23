@@ -2,10 +2,19 @@
 name = "unword"
 version = "0.2.0"
 edition = "2021"
+description = "MS Word .doc (OLE/CFB) to Markdown converter"
+license = "MIT"
+repository = "https://github.com/dridk/unword"
+keywords = ["doc", "word", "markdown", "converter", "ole"]
+categories = ["command-line-utilities", "text-processing"]
 
 [lib]
 name = "unword"
-crate-type = ["cdylib", "rlib"]
+crate-type = ["rlib"]
+
+[[bin]]
+name = "unword"
+path = "src/main.rs"
 
 [dependencies]
 cfb = "0.14"
