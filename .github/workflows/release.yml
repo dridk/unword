@@ -26,6 +26,9 @@ jobs:
       - name: Build
         run: cargo build --release --target x86_64-unknown-linux-musl
 
+      - name: Zip binary
+        run: zip unword-linux.zip target/x86_64-unknown-linux-musl/release/unword
+
       - name: Upload release asset
         uses: actions/github-script@v9
         with:
@@ -35,8 +38,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: context.payload.release.id,
-              name: 'unword',
-              data: fs.readFileSync('target/x86_64-unknown-linux-musl/release/unword'),
+              name: 'unword-linux.zip',
+              data: fs.readFileSync('unword-linux.zip'),
             });
 
   build-windows:
@@ -52,6 +55,9 @@ jobs:
       - name: Build
         run: cargo build --release
 
+      - name: Zip binary
+        run: Compress-Archive -Path target/release/unword.exe -DestinationPath unword-windows.zip
+
       - name: Upload release asset
         uses: actions/github-script@v9
         with:
@@ -61,6 +67,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: context.payload.release.id,
-              name: 'unword.exe',
-              data: fs.readFileSync('target/release/unword.exe'),
+              name: 'unword-windows.zip',
+              data: fs.readFileSync('unword-windows.zip'),
             });
