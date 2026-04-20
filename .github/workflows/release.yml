@@ -2,7 +2,7 @@ name: Release
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 permissions:
   contents: write
@@ -27,9 +27,17 @@ jobs:
         run: cargo build --release --target x86_64-unknown-linux-musl
 
       - name: Upload release asset
-        uses: softprops/action-gh-release@v2
+        uses: actions/github-script@v9
         with:
-          files: target/x86_64-unknown-linux-musl/release/unword
+          script: |
+            const fs = require('fs');
+            await github.rest.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id,
+              name: 'unword',
+              data: fs.readFileSync('target/x86_64-unknown-linux-musl/release/unword'),
+            });
 
   build-windows:
     runs-on: windows-latest
@@ -45,6 +53,14 @@ jobs:
         run: cargo build --release
 
       - name: Upload release asset
-        uses: softprops/action-gh-release@v2
+        uses: actions/github-script@v9
         with:
-          files: target/release/unword.exe
+          script: |
+            const fs = require('fs');
+            await github.rest.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id,
+              name: 'unword.exe',
+              data: fs.readFileSync('target/release/unword.exe'),
+            });
