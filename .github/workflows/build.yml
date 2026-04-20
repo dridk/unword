@@ -26,7 +26,7 @@ jobs:
         run: cargo build --release --target x86_64-unknown-linux-musl
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: unword-linux
           path: target/x86_64-unknown-linux-musl/release/unword
@@ -45,7 +45,7 @@ jobs:
         run: cargo build --release
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: unword-windows
           path: target/release/unword.exe
