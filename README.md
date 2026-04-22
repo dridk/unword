@@ -79,3 +79,11 @@ pytest tests/test_python.py
 ## License
 
 MIT
+
+
+## Alternative 
+
+- antiword
+- abiword
+- tika
+- libreoffice
