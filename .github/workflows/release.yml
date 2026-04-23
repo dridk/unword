@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-musl
+
+      - name: Install musl tools
+        run: sudo apt-get install -y musl-tools
+
+      - name: Build
+        run: cargo build --release --target x86_64-unknown-linux-musl
+
+      - name: Zip binary
+        run: zip unword-linux.zip target/x86_64-unknown-linux-musl/release/unword
+
+      - name: Upload release asset
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            await github.rest.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id,
+              name: 'unword-linux.zip',
+              data: fs.readFileSync('unword-linux.zip'),
+            });
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Zip binary
+        run: Compress-Archive -Path target/release/unword.exe -DestinationPath unword-windows.zip
+
+      - name: Upload release asset
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            await github.rest.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id,
+              name: 'unword-windows.zip',
+              data: fs.readFileSync('unword-windows.zip'),
+            });
