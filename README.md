@@ -14,6 +14,12 @@ cargo build --release
 
 ### Python
 
+```
+pip install unword
+```
+
+### From source 
+
 Requires [maturin](https://www.maturin.rs/) and a virtual environment:
 
 ```bash
