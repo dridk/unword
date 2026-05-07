@@ -9,7 +9,7 @@ Extracts body text with heading levels, page breaks, and textbox contents. No ex
 ### CLI (Rust)
 
 ```bash
-cargo build --release
+cargo install unword
 ```
 
 ### Python
