@@ -1,6 +1,6 @@
 [package]
 name = "unword"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 description = "MS Word .doc (OLE/CFB) to Markdown converter"
 license = "MIT"
@@ -10,7 +10,7 @@ categories = ["command-line-utilities", "text-processing"]
 
 [lib]
 name = "unword"
-crate-type = ["rlib"]
+crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "unword"
