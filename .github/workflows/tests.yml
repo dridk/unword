@@ -38,12 +38,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Python test dependencies
-        run: python -m pip install --upgrade pip maturin pytest
-
       - name: Run Python tests
         run: |
           python -m venv .venv
           . .venv/bin/activate
+          python -m pip install --upgrade pip maturin pytest
           maturin develop
-          pytest tests/test_python.py
+          python -m pytest tests/test_python.py
