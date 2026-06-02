@@ -9,10 +9,16 @@ Extracts body text with heading levels, page breaks, and textbox contents. No ex
 ### CLI (Rust)
 
 ```bash
-cargo build --release
+cargo install unword
 ```
 
 ### Python
+
+```
+pip install unword
+```
+
+### From source 
 
 Requires [maturin](https://www.maturin.rs/) and a virtual environment:
 
@@ -79,3 +85,11 @@ pytest tests/test_python.py
 ## License
 
 MIT
+
+
+## Alternative 
+
+- antiword
+- abiword
+- tika
+- libreoffice
