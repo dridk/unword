@@ -10,12 +10,24 @@ struct Args {
 
     #[arg(short, long)]
     output: Option<String>,
+
+    /// Print the OLE container layout and FIB header instead of converting.
+    /// The output contains no document text, so it can be attached to a bug
+    /// report.
+    #[arg(long)]
+    inspect: bool,
 }
 
 fn main() -> Result<()> {
     let args = Args::parse();
 
     let data = fs::read(&args.input).with_context(|| format!("Failed to read {}", args.input))?;
+
+    if args.inspect {
+        print!("{}", unword::ole::inspect(&data)?);
+        return Ok(());
+    }
+
     let doc = unword::parse_doc(&data)?;
 
     let mut md = doc.body_text;
