@@ -24,13 +24,27 @@ fn u32_at(data: &[u8], off: usize) -> u32 {
 }
 
 pub fn parse_fib(wd: &[u8]) -> Result<Fib> {
-    if wd.len() < 898 {
+    if wd.len() < 32 {
         bail!("WordDocument stream too short for FIB");
     }
 
     let w_ident = u16_at(wd, 0);
     if w_ident != 0xA5EC {
+        let n_fib = u16_at(wd, 2);
+        if matches!(w_ident, 0xA5DB | 0xA5DC) || n_fib < 193 {
+            bail!(
+                "This is a Word 6.0/95 (or earlier) document (wIdent={:#06X}, nFib={}). unword \
+                 only supports Word 97 and later; convert the file first (e.g. `libreoffice \
+                 --convert-to doc`) or use antiword.",
+                w_ident,
+                n_fib
+            );
+        }
         bail!("Invalid wIdent: expected 0xA5EC, got {:#06X}", w_ident);
+    }
+
+    if wd.len() < 898 {
+        bail!("WordDocument stream too short for FIB");
     }
 
     // FibBase is 32 bytes at offset 0

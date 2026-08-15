@@ -1,3 +1,4 @@
+pub mod cfb_recover;
 pub mod clx;
 pub mod fib;
 pub mod fields;
